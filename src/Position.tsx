@@ -38,7 +38,32 @@ const INDEX_TO_POS: Record<number, number[]> = {
   23: [4, 6],
 
 }
-
+const INDEX_TO_COLOR: Record<number, string> = {
+  0: "rgb(255, 165, 0)", // Orange
+  3: "rgb(255, 165, 0)",
+  6: "rgb(255, 165, 0)",
+  9: "rgb(255, 165, 0)",
+  5: "rgb(0, 0, 255)", // Blue
+  10: "rgb(0, 0, 255)",
+  16: "rgb(0, 0, 255)",
+  23: "rgb(0, 0, 255)",
+  1: "rgb(0, 255, 0)", // Green
+  8: "rgb(0, 255, 0)",
+  14: "rgb(0, 255, 0)",
+  19: "rgb(0, 255, 0)",
+  7: "grey", // White
+  11: "grey",
+  20: "grey",
+  22: "grey",
+  2: "rgb(255, 255, 0)", // Yellow
+  4: "rgb(255, 255, 0)",
+  13: "rgb(255, 255, 0)",
+  17: "rgb(255, 255, 0)",
+  12: "rgb(255, 0, 0)", // Red
+  15: "rgb(255, 0, 0)",
+  18: "rgb(255, 0, 0)",
+  21: "rgb(255, 0, 0)",
+}
 
 const style: CSSProperties = {
   aspectRatio: '4/3',
@@ -49,7 +74,7 @@ const style: CSSProperties = {
 }
 
 const cubieIndexToColor = (i: number) => {
-  return 'red'
+  return INDEX_TO_COLOR[i]
 }
 
 const cubieIndexToRowCol = (i: number) => {

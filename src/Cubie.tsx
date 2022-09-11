@@ -16,7 +16,7 @@ type props = {
 
 function Cube({color = 'red', row, col, onClick}: props) {
   return (
-    <div className="Cube" style={{backgroundColor: color, gridRow: row, gridColumn: col}} onClick={onClick} >
+    <div className="Cube" style={{backgroundColor: color, gridRow: row, gridColumn: col, margin: '1px'}} onClick={onClick} >
     </div>
   );
 }
