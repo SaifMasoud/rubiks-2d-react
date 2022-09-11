@@ -87,9 +87,9 @@ function Position() {
 
   return (
     <div className="Position" style={style}>
-      {positionArr.map(i => 
-      <Cubie col={cubieIndexToRowCol(i)[1]} color={cubieIndexToColor(i)} onClick={() => {}} 
-        row={cubieIndexToRowCol(i)[0]}
+      {positionArr.map((originalIndex, actualIndex) => 
+      <Cubie col={cubieIndexToRowCol(actualIndex)[1]} color={cubieIndexToColor(originalIndex)} onClick={() => {}} 
+        row={cubieIndexToRowCol(actualIndex)[0]}
       />
       )}
     </div>
