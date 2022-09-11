@@ -79,14 +79,14 @@ const cubieIndexToRowCol = (i: number) => {
   return INDEX_TO_POS[i];
 };
 
-function Position() {
-  const [positionArr, setPositionArr] = useState(
-    Array.from(Array(CUBIES_COUNT).keys())
-  );
+type props = {
+  pos: number[]
+}
 
+function Position({pos}: props) {
   return (
     <div className="Position" style={style}>
-      {positionArr.map((originalIndex, actualIndex) => (
+      {pos.map((originalIndex, actualIndex) => (
         <Cubie
           col={cubieIndexToRowCol(actualIndex)[1]}
           color={cubieIndexToColor(originalIndex)}
