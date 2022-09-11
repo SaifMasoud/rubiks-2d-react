@@ -80,10 +80,10 @@ const cubieIndexToRowCol = (i: number) => {
 };
 
 type props = {
-  pos: number[]
-}
+  pos: number[];
+};
 
-function Position({pos}: props) {
+function Position({ pos }: props) {
   return (
     <div className="Position" style={style}>
       {pos.map((originalIndex, actualIndex) => (
