@@ -1,7 +1,6 @@
-import React, { CSSProperties, useState } from 'react';
-import './App.css';
-import Cubie from './Cubie';
-
+import React, { CSSProperties, useState } from "react";
+import "./App.css";
+import Cubie from "./Cubie";
 
 const CUBIES_COUNT = 24;
 const INDEX_TO_POS: Record<number, number[]> = {
@@ -36,8 +35,7 @@ const INDEX_TO_POS: Record<number, number[]> = {
   21: [4, 8],
   22: [6, 4],
   23: [4, 6],
-
-}
+};
 const INDEX_TO_COLOR: Record<number, string> = {
   0: "rgb(255, 165, 0)", // Orange
   3: "rgb(255, 165, 0)",
@@ -63,35 +61,39 @@ const INDEX_TO_COLOR: Record<number, string> = {
   15: "rgb(255, 0, 0)",
   18: "rgb(255, 0, 0)",
   21: "rgb(255, 0, 0)",
-}
+};
 
 const style: CSSProperties = {
-  aspectRatio: '4/3',
-  display: 'grid',
-  gridTemplateRows: 'repeat(6, 1fr)',
-  gridTemplateColumns: 'repeat(8, 1fr)',
-  height: '300px'
-}
+  aspectRatio: "4/3",
+  display: "grid",
+  gridTemplateRows: "repeat(6, 1fr)",
+  gridTemplateColumns: "repeat(8, 1fr)",
+  height: "300px",
+};
 
 const cubieIndexToColor = (i: number) => {
-  return INDEX_TO_COLOR[i]
-}
+  return INDEX_TO_COLOR[i];
+};
 
 const cubieIndexToRowCol = (i: number) => {
-  return INDEX_TO_POS[i]
-}
+  return INDEX_TO_POS[i];
+};
 
 function Position() {
-  const [positionArr, setPositionArr] = useState(Array.from(Array(CUBIES_COUNT).keys()))
-
+  const [positionArr, setPositionArr] = useState(
+    Array.from(Array(CUBIES_COUNT).keys())
+  );
 
   return (
     <div className="Position" style={style}>
-      {positionArr.map((originalIndex, actualIndex) => 
-      <Cubie col={cubieIndexToRowCol(actualIndex)[1]} color={cubieIndexToColor(originalIndex)} onClick={() => {}} 
-        row={cubieIndexToRowCol(actualIndex)[0]}
-      />
-      )}
+      {positionArr.map((originalIndex, actualIndex) => (
+        <Cubie
+          col={cubieIndexToRowCol(actualIndex)[1]}
+          color={cubieIndexToColor(originalIndex)}
+          onClick={() => {}}
+          row={cubieIndexToRowCol(actualIndex)[0]}
+        />
+      ))}
     </div>
   );
 }

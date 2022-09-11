@@ -1,7 +1,7 @@
-import React from 'react';
-import './App.css';
-import Cubie from './Cubie';
-import Position from './Position';
+import React from "react";
+import "./App.css";
+import Cubie from "./Cubie";
+import Position from "./Position";
 
 function App() {
   return (
