@@ -9,13 +9,6 @@ function App() {
   return (
     <div className="App">
       <Position pos={posList[posListIndex]}></Position>
-      <button
-        onClick={() =>
-          setPosListIndex((posListIndex + 1) % posList.length)
-        }
-      >
-        POSITION CHANGE
-      </button>
       <select onChange={(event) => setPosListIndex(parseInt(event.target.value))}>
         {posList.map((pos, i) => <option value={i}>{pos}</option>)}
       </select>
