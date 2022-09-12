@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
+import ColorPicker from "./ColorPicker";
 import Cubie from "./Cubie";
 import Position from "./Position";
 
@@ -61,16 +62,39 @@ function App() {
     ],
   ]);
   const [posListIndex, setPosListIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState("red");
+
+  const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
+    let newPosition = posList[posListIndex].map((elem, i) =>
+      i === oldIndex ? newElem : elem
+    );
+    let newPosList = posList.map((pos, i) =>
+      i === posListIndex ? newPosition : pos
+    );
+    setPosList(newPosList);
+  };
+
   return (
-    <div className="App">
-      <Position pos={posList[posListIndex]}></Position>
+    <div
+      className="App"
+      style={{ display: "grid", gridTemplateRows: "6fr 1fr 2fr", width: "50%" }}
+    >
+      <Position
+        pos={posList[posListIndex]}
+        cubieFaceClickHandler={(index) =>
+          updateCubieFaceColor(selectedColor, index)
+        }
+      ></Position>
       <select
         onChange={(event) => setPosListIndex(parseInt(event.target.value))}
       >
         {posList.map((pos, i) => (
-          <option value={i}>{pos}</option>
+          <option value={i}>{i}</option>
         ))}
       </select>
+      <ColorPicker
+        colorClickHandle={(color) => setSelectedColor(color)}
+      ></ColorPicker>
     </div>
   );
 }

@@ -51,16 +51,19 @@ const cubieIndexToRowCol = (i: number) => {
 
 type props = {
   pos: string[];
+  cubieFaceClickHandler: (index: number) => void;
 };
 
-function Position({ pos }: props) {
+function Position({ pos, cubieFaceClickHandler: cubieClickHandler }: props) {
   return (
     <div className="Position" style={style}>
       {pos.map((color, actualIndex) => (
         <Cubie
           col={cubieIndexToRowCol(actualIndex)[1]}
           color={color}
-          onClick={() => {}}
+          onClick={() => {
+            cubieClickHandler(actualIndex);
+          }}
           row={cubieIndexToRowCol(actualIndex)[0]}
         />
       ))}
