@@ -33,14 +33,19 @@ const INDEX_TO_COLOR: Record<number, string> = {
 };
 
 const getSolutionFromRGBArr = (rgbArr: string[]) => {
-  return postData('http://localhost:5000/', {'colors_list': rgbArr})
-}
+  return postData("http://localhost:5000/", { colors_list: rgbArr });
+};
 
 function App() {
-  const [colorsLists, setColorsLists] = useState([[2, 0, 1, 16, 17, 15, 9, 10, 11, 3, 4, 5, 7, 8, 6, 14, 12, 13, 18, 19, 20, 21, 22, 23].map(i => INDEX_TO_COLOR[i])]);
+  const [colorsLists, setColorsLists] = useState([
+    [
+      2, 0, 1, 16, 17, 15, 9, 10, 11, 3, 4, 5, 7, 8, 6, 14, 12, 13, 18, 19, 20,
+      21, 22, 23,
+    ].map((i) => INDEX_TO_COLOR[i]),
+  ]);
   const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
-  const [twists, setTwists] = useState<string[]>([])
+  const [twists, setTwists] = useState<string[]>([]);
 
   const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
     let newPosition = colorsLists[colorsListsIndex].map((elem, i) =>
@@ -53,24 +58,29 @@ function App() {
   };
 
   const getCurTwist = () => {
-    return colorsListsIndex === colorsLists.length-1 ? null : twists[colorsListsIndex]
-  }
-
+    return colorsListsIndex === colorsLists.length - 1
+      ? null
+      : twists[colorsListsIndex];
+  };
 
   const curPos = () => colorsLists[colorsListsIndex];
 
-  const solveRubiks = () => { 
-    getSolutionFromRGBArr(curPos()).then(sol => {
-      setColorsLists(sol['colors_lists'])
-      setTwists(sol['twists'])
-    })
-    setColorsListsIndex(0)
-  }
+  const solveRubiks = () => {
+    getSolutionFromRGBArr(curPos()).then((sol) => {
+      setColorsLists(sol["colors_lists"]);
+      setTwists(sol["twists"]);
+    });
+    setColorsListsIndex(0);
+  };
 
   return (
     <div
       className="App"
-      style={{ display: "grid", gridTemplateRows: "6fr 0.5fr 0.5fr 2fr", width: "50%" }}
+      style={{
+        display: "grid",
+        gridTemplateRows: "6fr 0.5fr 0.5fr 2fr",
+        width: "50%",
+      }}
     >
       <Position
         pos={colorsLists[colorsListsIndex]}

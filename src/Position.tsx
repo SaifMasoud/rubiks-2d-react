@@ -37,19 +37,21 @@ const INDEX_TO_POS: Record<number, number[]> = {
   23: [4, 6],
 };
 const twistNameToPos = (name: string) => {
-  return ['F', 'Fi'].some(t => name === t)? [5, 5] :
-    ['L', 'Li'].some(t => name === t)? [7, 3] :
-    [3, 9]
-}
+  return ["F", "Fi"].some((t) => name === t)
+    ? [5, 5]
+    : ["L", "Li"].some((t) => name === t)
+    ? [7, 3]
+    : [3, 9];
+};
 
 const TWIST_NAME_TO_ARROW_FILE: Record<string, string> = {
-  'U': 'Up.png',
-  'F': 'Front.png',
-  'L': 'Left.png',
-  'Ui': 'UpI.png',
-  'Fi': 'FrontI.png',
-  'Li': 'LeftI.png',
-}
+  U: "Up.png",
+  F: "Front.png",
+  L: "Left.png",
+  Ui: "UpI.png",
+  Fi: "FrontI.png",
+  Li: "LeftI.png",
+};
 
 const style: CSSProperties = {
   aspectRatio: "4/3",
@@ -63,11 +65,10 @@ const cubieIndexToRowCol = (i: number) => {
   return INDEX_TO_POS[i];
 };
 
-
 type props = {
   pos: string[];
   cubieFaceClickHandler: (index: number) => void;
-  twist: string | null
+  twist: string | null;
 };
 
 function Position({ pos, cubieFaceClickHandler, twist }: props) {
@@ -83,9 +84,19 @@ function Position({ pos, cubieFaceClickHandler, twist }: props) {
           row={cubieIndexToRowCol(actualIndex)[0]}
         />
       ))}
-      {twist != null ? <div style={{gridRow: twistNameToPos(twist)[0], gridColumn: twistNameToPos(twist)[1]}}>
-        <img src={require('./' + TWIST_NAME_TO_ARROW_FILE[twist])} style={{maxWidth: '100%', height: 'auto'}}></img>
-      </div> : null}
+      {twist != null ? (
+        <div
+          style={{
+            gridRow: twistNameToPos(twist)[0],
+            gridColumn: twistNameToPos(twist)[1],
+          }}
+        >
+          <img
+            src={require("./" + TWIST_NAME_TO_ARROW_FILE[twist])}
+            style={{ maxWidth: "100%", height: "auto" }}
+          ></img>
+        </div>
+      ) : null}
     </div>
   );
 }
