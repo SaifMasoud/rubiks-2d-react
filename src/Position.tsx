@@ -39,7 +39,7 @@ const INDEX_TO_POS: Record<number, number[]> = {
 const twistNameToPos = (name: string) => {
   return ['F', 'Fi'].some(t => name === t)? [5, 5] :
     ['L', 'Li'].some(t => name === t)? [7, 3] :
-    [5, 5]
+    [3, 9]
 }
 
 const TWIST_NAME_TO_ARROW_FILE: Record<string, string> = {

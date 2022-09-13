@@ -37,7 +37,7 @@ const getSolutionFromRGBArr = (rgbArr: string[]) => {
 }
 
 function App() {
-  const [colorsLists, setColorsLists] = useState([[18, 19, 20, 3, 4, 5, 12, 13, 14, 9, 10, 11, 6, 7, 8, 15, 16, 17, 0, 1, 2, 21, 22, 23].map(i => INDEX_TO_COLOR[i])]);
+  const [colorsLists, setColorsLists] = useState([[2, 0, 1, 16, 17, 15, 9, 10, 11, 3, 4, 5, 7, 8, 6, 14, 12, 13, 18, 19, 20, 21, 22, 23].map(i => INDEX_TO_COLOR[i])]);
   const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
   const [twists, setTwists] = useState<string[]>([])
