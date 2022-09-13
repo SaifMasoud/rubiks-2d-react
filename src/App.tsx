@@ -89,14 +89,24 @@ function App() {
         }
         twist={getCurTwist()}
       ></Position>
-      <select
-        onChange={(event) => setColorsListsIndex(parseInt(event.target.value))}
-        value={colorsListsIndex}
-      >
+      <div style={{ display: "flex" }}>
         {colorsLists.map((pos, i) => (
-          <option value={i}>{i}</option>
+          <button style={{backgroundColor: colorsListsIndex===i ? 'darkgray' : '#F0F0F0'}} value={i} onClick={() => setColorsListsIndex(i)}>
+            {"Step: " + i}
+          </button>
         ))}
-      </select>
+        <button
+          onClick={() =>
+            setColorsListsIndex(
+              colorsListsIndex < colorsLists.length - 1
+                ? colorsListsIndex + 1
+                : colorsListsIndex
+            )
+          }
+        >
+          next
+        </button>
+      </div>
       <button onClick={() => solveRubiks()}>Solve</button>
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
