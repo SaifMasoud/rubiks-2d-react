@@ -36,12 +36,26 @@ const INDEX_TO_POS: Record<number, number[]> = {
   22: [6, 4],
   23: [4, 6],
 };
+const twistNameToPos = (name: string) => {
+  return ['F', 'Fi'].some(t => name === t)? [5, 5] :
+    ['L', 'Li'].some(t => name === t)? [7, 3] :
+    [5, 5]
+}
+
+const TWIST_NAME_TO_ARROW_FILE: Record<string, string> = {
+  'U': 'Up.png',
+  'F': 'Front.png',
+  'L': 'Left.png',
+  'Ui': 'UpI.png',
+  'Fi': 'FrontI.png',
+  'Li': 'LeftI.png',
+}
 
 const style: CSSProperties = {
   aspectRatio: "4/3",
   display: "grid",
-  gridTemplateRows: "repeat(6, 1fr)",
-  gridTemplateColumns: "repeat(8, 1fr)",
+  gridTemplateRows: "repeat(7, 1fr)",
+  gridTemplateColumns: "repeat(9, 1fr)",
   height: "300px",
 };
 
@@ -49,12 +63,14 @@ const cubieIndexToRowCol = (i: number) => {
   return INDEX_TO_POS[i];
 };
 
+
 type props = {
   pos: string[];
   cubieFaceClickHandler: (index: number) => void;
+  twist: string | null
 };
 
-function Position({ pos, cubieFaceClickHandler: cubieClickHandler }: props) {
+function Position({ pos, cubieFaceClickHandler, twist }: props) {
   return (
     <div className="Position" style={style}>
       {pos.map((color, actualIndex) => (
@@ -62,11 +78,14 @@ function Position({ pos, cubieFaceClickHandler: cubieClickHandler }: props) {
           col={cubieIndexToRowCol(actualIndex)[1]}
           color={color}
           onClick={() => {
-            cubieClickHandler(actualIndex);
+            cubieFaceClickHandler(actualIndex);
           }}
           row={cubieIndexToRowCol(actualIndex)[0]}
         />
       ))}
+      {twist != null ? <div style={{gridRow: twistNameToPos(twist)[0], gridColumn: twistNameToPos(twist)[1]}}>
+        <img src={require('./' + TWIST_NAME_TO_ARROW_FILE[twist])} style={{maxWidth: '100%', height: 'auto'}}></img>
+      </div> : null}
     </div>
   );
 }

@@ -3,95 +3,91 @@ import "./App.css";
 import ColorPicker from "./ColorPicker";
 import Cubie from "./Cubie";
 import Position from "./Position";
+import postData from "./util";
 
 const INDEX_TO_COLOR: Record<number, string> = {
-  0: "rgb(255, 165, 0)", // Orange
-  3: "rgb(255, 165, 0)",
-  6: "rgb(255, 165, 0)",
-  9: "rgb(255, 165, 0)",
-  5: "rgb(0, 0, 255)", // Blue
-  10: "rgb(0, 0, 255)",
-  16: "rgb(0, 0, 255)",
-  23: "rgb(0, 0, 255)",
-  1: "rgb(0, 255, 0)", // Green
-  8: "rgb(0, 255, 0)",
-  14: "rgb(0, 255, 0)",
-  19: "rgb(0, 255, 0)",
+  0: "orange", // Orange
+  3: "orange",
+  6: "orange",
+  9: "orange",
+  5: "blue", // Blue
+  10: "blue",
+  16: "blue",
+  23: "blue",
+  1: "green", // Green
+  8: "green",
+  14: "green",
+  19: "green",
   7: "grey", // White
   11: "grey",
   20: "grey",
   22: "grey",
-  2: "rgb(255, 255, 0)", // Yellow
-  4: "rgb(255, 255, 0)",
-  13: "rgb(255, 255, 0)",
-  17: "rgb(255, 255, 0)",
-  12: "rgb(255, 0, 0)", // Red
-  15: "rgb(255, 0, 0)",
-  18: "rgb(255, 0, 0)",
-  21: "rgb(255, 0, 0)",
+  2: "yellow", // Yellow
+  4: "yellow",
+  13: "yellow",
+  17: "yellow",
+  12: "red", // Red
+  15: "red",
+  18: "red",
+  21: "red",
 };
 
+const getSolutionFromRGBArr = (rgbArr: string[]) => {
+  return postData('http://localhost:5000/', {'colors_list': rgbArr})
+}
+
 function App() {
-  const [posList, setPosList] = useState([
-    Array.from(Array(24).keys()).map((i) => INDEX_TO_COLOR[i]),
-    [
-      INDEX_TO_COLOR[13],
-      INDEX_TO_COLOR[14],
-      INDEX_TO_COLOR[12],
-      INDEX_TO_COLOR[3],
-      INDEX_TO_COLOR[4],
-      INDEX_TO_COLOR[5],
-      INDEX_TO_COLOR[2],
-      INDEX_TO_COLOR[0],
-      INDEX_TO_COLOR[1],
-      INDEX_TO_COLOR[9],
-      INDEX_TO_COLOR[10],
-      INDEX_TO_COLOR[11],
-      INDEX_TO_COLOR[20],
-      INDEX_TO_COLOR[18],
-      INDEX_TO_COLOR[19],
-      INDEX_TO_COLOR[15],
-      INDEX_TO_COLOR[16],
-      INDEX_TO_COLOR[17],
-      INDEX_TO_COLOR[7],
-      INDEX_TO_COLOR[8],
-      INDEX_TO_COLOR[6],
-      INDEX_TO_COLOR[21],
-      INDEX_TO_COLOR[22],
-      INDEX_TO_COLOR[23],
-    ],
-  ]);
-  const [posListIndex, setPosListIndex] = useState(0);
+  const [colorsLists, setColorsLists] = useState([[18, 19, 20, 3, 4, 5, 12, 13, 14, 9, 10, 11, 6, 7, 8, 15, 16, 17, 0, 1, 2, 21, 22, 23].map(i => INDEX_TO_COLOR[i])]);
+  const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
+  const [twists, setTwists] = useState<string[]>([])
 
   const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
-    let newPosition = posList[posListIndex].map((elem, i) =>
+    let newPosition = colorsLists[colorsListsIndex].map((elem, i) =>
       i === oldIndex ? newElem : elem
     );
-    let newPosList = posList.map((pos, i) =>
-      i === posListIndex ? newPosition : pos
+    let newColorsLists = colorsLists.map((pos, i) =>
+      i === colorsListsIndex ? newPosition : pos
     );
-    setPosList(newPosList);
+    setColorsLists(newColorsLists);
   };
+
+  const getCurTwist = () => {
+    return colorsListsIndex === colorsLists.length-1 ? null : twists[colorsListsIndex]
+  }
+
+
+  const curPos = () => colorsLists[colorsListsIndex];
+
+  const solveRubiks = () => { 
+    getSolutionFromRGBArr(curPos()).then(sol => {
+      setColorsLists(sol['colors_lists'])
+      setTwists(sol['twists'])
+    })
+    setColorsListsIndex(0)
+  }
 
   return (
     <div
       className="App"
-      style={{ display: "grid", gridTemplateRows: "6fr 1fr 2fr", width: "50%" }}
+      style={{ display: "grid", gridTemplateRows: "6fr 0.5fr 0.5fr 2fr", width: "50%" }}
     >
       <Position
-        pos={posList[posListIndex]}
+        pos={colorsLists[colorsListsIndex]}
         cubieFaceClickHandler={(index) =>
           updateCubieFaceColor(selectedColor, index)
         }
+        twist={getCurTwist()}
       ></Position>
       <select
-        onChange={(event) => setPosListIndex(parseInt(event.target.value))}
+        onChange={(event) => setColorsListsIndex(parseInt(event.target.value))}
+        value={colorsListsIndex}
       >
-        {posList.map((pos, i) => (
+        {colorsLists.map((pos, i) => (
           <option value={i}>{i}</option>
         ))}
       </select>
+      <button onClick={() => solveRubiks()}>Solve</button>
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
       ></ColorPicker>
