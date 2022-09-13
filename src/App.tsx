@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Popup from "reactjs-popup";
 import "./App.css";
 import ColorPicker from "./ColorPicker";
 import Cubie from "./Cubie";
@@ -46,6 +47,7 @@ function App() {
   const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
   const [twists, setTwists] = useState<string[]>([]);
+  const [showInputPopup, setShowInputPopup] = useState(false)
 
   const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
     let newPosition = colorsLists[colorsListsIndex].map((elem, i) =>
@@ -66,11 +68,16 @@ function App() {
   const curPos = () => colorsLists[colorsListsIndex];
 
   const solveRubiks = () => {
-    getSolutionFromRGBArr(curPos()).then((sol) => {
+    getSolutionFromRGBArr(curPos()).then((sol: Record<string, any>) => {
+      if (!('colors_lists' in sol)) {
+        // Handle Error cases (typically invalid rubik's input):
+        setShowInputPopup(true)
+        return
+      }
       setColorsLists(sol["colors_lists"]);
       setTwists(sol["twists"]);
+      setColorsListsIndex(0);
     });
-    setColorsListsIndex(0);
   };
 
   return (
@@ -111,6 +118,10 @@ function App() {
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
       ></ColorPicker>
+      <Popup open={showInputPopup} position="right bottom" contentStyle={{position: 'absolute', zIndex: 1}}>
+        <span>Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top</span>
+        <button onClick={() => setShowInputPopup(false)}>Close</button>
+      </Popup>
     </div>
   );
 }
