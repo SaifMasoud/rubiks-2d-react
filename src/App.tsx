@@ -37,6 +37,9 @@ const getSolutionFromRGBArr = (rgbArr: string[]) => {
   return postData("http://localhost:5000/", { colors_list: rgbArr });
 };
 
+const CONNECTION_FAILED_MSG = "Could not connect to Solver server"
+const INVALID_INPUT_MSG = "Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top"
+
 function App() {
   const [colorsLists, setColorsLists] = useState([
     [
@@ -47,7 +50,8 @@ function App() {
   const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
   const [twists, setTwists] = useState<string[]>([]);
-  const [showInputPopup, setShowInputPopup] = useState(false)
+  const [errorMsgPopupText, setErrorMsgPopupText] = useState(false)
+  const [errorMsg, setErrorMsg] = useState(INVALID_INPUT_MSG);
 
   const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
     let newPosition = colorsLists[colorsListsIndex].map((elem, i) =>
@@ -71,12 +75,16 @@ function App() {
     getSolutionFromRGBArr(curPos()).then((sol: Record<string, any>) => {
       if (!('colors_lists' in sol)) {
         // Handle Error cases (typically invalid rubik's input):
-        setShowInputPopup(true)
+        setErrorMsg(INVALID_INPUT_MSG)
+        setErrorMsgPopupText(true)
         return
       }
       setColorsLists(sol["colors_lists"]);
       setTwists(sol["twists"]);
       setColorsListsIndex(0);
+    }).catch(e => {
+      setErrorMsg(CONNECTION_FAILED_MSG)
+      setErrorMsgPopupText(true)
     });
   };
 
@@ -118,9 +126,9 @@ function App() {
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
       ></ColorPicker>
-      <Popup open={showInputPopup} position="right bottom" contentStyle={{position: 'absolute', zIndex: 1}}>
-        <span>Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top</span>
-        <button onClick={() => setShowInputPopup(false)}>Close</button>
+      <Popup open={errorMsgPopupText} position="right bottom" contentStyle={{position: 'absolute', zIndex: 1}}>
+        <span>{errorMsg}</span>
+        <button onClick={() => setErrorMsgPopupText(false)}>Close</button>
       </Popup>
     </div>
   );
