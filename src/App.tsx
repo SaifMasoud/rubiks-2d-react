@@ -34,7 +34,7 @@ const INDEX_TO_COLOR: Record<number, string> = {
 };
 
 const getSolutionFromRGBArr = (rgbArr: string[]) => {
-  return postData("http://localhost:5000/", { colors_list: rgbArr });
+  return postData("/api", { colors_list: rgbArr });
 };
 
 const CONNECTION_FAILED_MSG = "Could not connect to Solver server"
