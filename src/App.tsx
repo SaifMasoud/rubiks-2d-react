@@ -43,7 +43,7 @@ const INVALID_INPUT_MSG = "Solve failed! Make sure input is valid; The front fac
 function App() {
   const [colorsLists, setColorsLists] = useState([
     [
-      2, 0, 1, 16, 17, 15, 9, 10, 11, 3, 4, 5, 7, 8, 6, 14, 12, 13, 18, 19, 20,
+      12, 13, 14, 20, 18, 19, 7, 8, 6, 0, 1, 2, 11, 9, 10, 5, 3, 4, 17, 15, 16,
       21, 22, 23,
     ].map((i) => INDEX_TO_COLOR[i]),
   ]);
