@@ -119,6 +119,9 @@ function App() {
             {"Step: " + i}
           </button>
         ))}
+      </div>
+      <div style={{ display: "flex" }}>
+        <button onClick={() => solveRubiks()}>Solve</button>
         <button
           onClick={() =>
             setColorsListsIndex(
@@ -130,8 +133,16 @@ function App() {
         >
           next
         </button>
+        <button
+          onClick={() =>
+            setColorsListsIndex(
+              colorsListsIndex > 0 ? colorsListsIndex - 1 : colorsListsIndex
+            )
+          }
+        >
+          previous
+        </button>
       </div>
-      <button onClick={() => solveRubiks()}>Solve</button>
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
       ></ColorPicker>
