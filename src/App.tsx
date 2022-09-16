@@ -37,8 +37,9 @@ const getSolutionFromRGBArr = (rgbArr: string[]) => {
   return postData("/api", { colors_list: rgbArr });
 };
 
-const CONNECTION_FAILED_MSG = "Could not connect to Solver server"
-const INVALID_INPUT_MSG = "Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top"
+const CONNECTION_FAILED_MSG = "Could not connect to Solver server";
+const INVALID_INPUT_MSG =
+  "Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top";
 
 function App() {
   const [colorsLists, setColorsLists] = useState([
@@ -50,7 +51,7 @@ function App() {
   const [colorsListsIndex, setColorsListsIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState("red");
   const [twists, setTwists] = useState<string[]>([]);
-  const [errorMsgPopupText, setErrorMsgPopupText] = useState(false)
+  const [errorMsgPopupText, setErrorMsgPopupText] = useState(false);
   const [errorMsg, setErrorMsg] = useState(INVALID_INPUT_MSG);
 
   const updateCubieFaceColor = (newElem: string, oldIndex: number) => {
@@ -72,20 +73,22 @@ function App() {
   const curPos = () => colorsLists[colorsListsIndex];
 
   const solveRubiks = () => {
-    getSolutionFromRGBArr(curPos()).then((sol: Record<string, any>) => {
-      if (!('colors_lists' in sol)) {
-        // Handle Error cases (typically invalid rubik's input):
-        setErrorMsg(INVALID_INPUT_MSG)
-        setErrorMsgPopupText(true)
-        return
-      }
-      setColorsLists(sol["colors_lists"]);
-      setTwists(sol["twists"]);
-      setColorsListsIndex(0);
-    }).catch(e => {
-      setErrorMsg(CONNECTION_FAILED_MSG)
-      setErrorMsgPopupText(true)
-    });
+    getSolutionFromRGBArr(curPos())
+      .then((sol: Record<string, any>) => {
+        if (!("colors_lists" in sol)) {
+          // Handle Error cases (typically invalid rubik's input):
+          setErrorMsg(INVALID_INPUT_MSG);
+          setErrorMsgPopupText(true);
+          return;
+        }
+        setColorsLists(sol["colors_lists"]);
+        setTwists(sol["twists"]);
+        setColorsListsIndex(0);
+      })
+      .catch((e) => {
+        setErrorMsg(CONNECTION_FAILED_MSG);
+        setErrorMsgPopupText(true);
+      });
   };
 
   return (
@@ -106,7 +109,13 @@ function App() {
       ></Position>
       <div style={{ display: "flex" }}>
         {colorsLists.map((pos, i) => (
-          <button style={{backgroundColor: colorsListsIndex===i ? 'darkgray' : '#F0F0F0'}} value={i} onClick={() => setColorsListsIndex(i)}>
+          <button
+            style={{
+              backgroundColor: colorsListsIndex === i ? "darkgray" : "#F0F0F0",
+            }}
+            value={i}
+            onClick={() => setColorsListsIndex(i)}
+          >
             {"Step: " + i}
           </button>
         ))}
@@ -126,7 +135,11 @@ function App() {
       <ColorPicker
         colorClickHandle={(color) => setSelectedColor(color)}
       ></ColorPicker>
-      <Popup open={errorMsgPopupText} position="right bottom" contentStyle={{position: 'absolute', zIndex: 1}}>
+      <Popup
+        open={errorMsgPopupText}
+        position="right bottom"
+        contentStyle={{ position: "absolute", zIndex: 1 }}
+      >
         <span>{errorMsg}</span>
         <button onClick={() => setErrorMsgPopupText(false)}>Close</button>
       </Popup>
