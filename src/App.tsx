@@ -39,7 +39,7 @@ const getSolutionFromRGBArr = (rgbArr: string[]) => {
 
 const CONNECTION_FAILED_MSG = "Could not connect to Solver server";
 const INVALID_INPUT_MSG =
-  "Solve failed! Make sure input is valid; The front face should have orange on its top-left, with a green to its left and a yellow on its top";
+  "Solve failed! Make sure input is valid; And that the bottom-right of the down-face is grey/white, with red & blue adjacent to it (on the same cubie piece)";
 
 function App() {
   const [colorsLists, setColorsLists] = useState([
