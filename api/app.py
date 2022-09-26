@@ -5,7 +5,7 @@ from bidirectional_bfs import bidirectional_bfs_search, rubik_list_states
 app = Flask(__name__, static_folder="./build", static_url_path='/')
 
 @app.route('/')
-def index(): 
+def index():
     return app.send_static_file('index.html')
 
 
